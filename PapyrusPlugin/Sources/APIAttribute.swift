@@ -140,7 +140,9 @@ enum APIAttribute {
 
             let mapParameter = key == nil ? "" : ", mapKey: false"
             return """
-            req.addField("\(key ?? input)", value: \(input)\(mapParameter))
+            if String(describing: \(input)) != "nil" {
+                req.addField("\(key ?? input)", value: \(input)\(mapParameter))
+            }
             """
         case .json(let encoder, let decoder):
             return """
