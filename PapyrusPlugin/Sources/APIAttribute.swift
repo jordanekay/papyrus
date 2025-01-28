@@ -139,9 +139,10 @@ enum APIAttribute {
             }
 
             let mapParameter = key == nil ? "" : ", mapKey: false"
+			let field = (key ?? input).replacingOccurrences(of: "`", with: "")
             return """
             if String(describing: \(input)) != "nil" {
-                req.addField("\(key ?? input)", value: \(input)\(mapParameter))
+                req.addField("\(field)", value: \(input)\(mapParameter))
             }
             """
         case .json(let encoder, let decoder):
