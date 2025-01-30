@@ -20,10 +20,10 @@ extension ProtocolDeclSyntax {
     fileprivate func createMock(named mockName: String) throws -> String {
         """
         \(access)final class \(mockName): \(typeName) {
-            private let notMockedError: Error
+            private let notMockedError: any Error
             private var mocks: [String: Any]
 
-            \(access)init(notMockedError: Error = PapyrusError("Not mocked")) {
+            \(access)init(notMockedError: any Error = PapyrusError("Not mocked")) {
                 self.notMockedError = notMockedError
                 mocks = [:]
             }
