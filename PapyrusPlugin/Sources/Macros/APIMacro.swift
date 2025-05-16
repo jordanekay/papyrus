@@ -60,8 +60,17 @@ extension API.Endpoint {
         Declaration("func \(name)\(functionSignature)") {
             
             // 0. create a request builder
+			if pathParameters.isEmpty {
+				"var req = builder(method: \(method.inQuotes), path: \(path.inQuotes))"
+			} else {
+				"var pathParameters = \(path.components(separatedBy: "/").filter { !$0.isEmpty })"
+				for parameter in pathParameters {
+					"if \(parameter) as Any? == nil { pathParameters.removeAll { $0 == \"{\(parameter)}\" } }"
+				}
 
-            "var req = builder(method: \(method.inQuotes), path: \(path.inQuotes))"
+				"let path = pathParameters.joined(separator: \"/\")"
+				"var req = builder(method: \(method.inQuotes), path: path)"
+			}
 
             // 1. add function scope attributes
 
